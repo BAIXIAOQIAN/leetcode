@@ -72,5 +72,3 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 	return result.Next
 }
-
-//result 的值从哪里来的，是因为指针指向同一个地址？
