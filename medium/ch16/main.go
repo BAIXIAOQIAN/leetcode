@@ -1,8 +1,11 @@
 package main
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
-//最接近的三个数之和
+//最接近的三个数之和 时间复杂度o(n^3)
 func threeSumClosest(nums []int, target int) int {
 	var res = target
 
@@ -11,42 +14,34 @@ func threeSumClosest(nums []int, target int) int {
 
 	resmap := make(map[int]int)
 	//遍历排序后的数组
-	for i := 0; i < len(nums); i++ {
-		j, k := i+1, len(nums)-1
-		for j < k {
-			if j > i+1 {
-				j++
-				continue
+	for i := 0; i < len(nums)-2; i++ {
+		println(i)
+		for j := i + 1; j < len(nums)-1; j++ {
+			for k := j + 1; k < len(nums); k++ {
+				sum := nums[i] + nums[j] + nums[k]
+				if sum > target {
+					res = sum - target
+				} else {
+					res = target - sum
+				}
+				resmap[res] = sum
 			}
-			if k < len(nums)-1 {
-				k--
-				continue
-			}
-			sum := nums[i] + nums[j] + nums[k]
-
-			if sum > target {
-				res = sum - target
-			} else {
-				res = target - sum
-			}
-			resmap[res] = sum
 		}
 	}
 
-	var min int = 0
-	var resvalue int
+	var min int = res
 
 	for k, v := range resmap {
-		if k > min {
+		fmt.Printf("k: %v, v: %v\n", k, v)
+		if min > k {
 			min = k
-			resvalue = v
 		}
 	}
-	return resvalue
+	return resmap[min]
 }
 
 func main() {
-	nums := []int{-1,2,1,-4}
-	res := threeSumClosest(nums, 9)
+	nums := []int{0, 2, 1, -3}
+	res := threeSumClosest(nums, 1)
 	println(res)
 }
